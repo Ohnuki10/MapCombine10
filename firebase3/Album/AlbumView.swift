@@ -9,26 +9,29 @@ import SwiftUI
 
 struct AlbumView: View {
     
-//    @StateObject var viewModel = AlbumViewModel()
+    //    @StateObject var viewModel = AlbumViewModel()
     @ObservedObject var albumViewModel: AlbumViewModel
     init(viewModel: AlbumViewModel) {
         albumViewModel = viewModel
-//        UITextView.appearance().backgroundColor = .clear
-        }
-
+        
+    }
+    
     @FetchRequest(entity: Task.entity(), sortDescriptors: [NSSortDescriptor(key: "date", ascending: true)],animation: .spring()) var results : FetchedResults<Task>
-     //ここにデータ入ってる？　Foreachで回している
+    //ここにデータ入ってる　Foreachで回している
     
     
     @State var nowDate = Date()
     @State var dateText = ""
     private let dateFormatter = DateFormatter()
     
-  
+    
     @Environment(\.managedObjectContext) var context
+    
+    
     
     var body: some View {
         ZStack(alignment: Alignment(horizontal: .trailing, vertical: .bottom), content: {
+            
             NavigationView{
                 VStack(spacing:0){
                     if albumViewModel.foryou.isEmpty{
@@ -40,63 +43,60 @@ struct AlbumView: View {
                         Spacer()
                     }else{
                         
-                   //ForYou
-
-
+                        //ForYou
+                        
+                        
                         Text("ForYou")
-                                    VStack(alignment: .leading, spacing: 5, content: {
-                                       
-                                        
-                                        HStack{
-                                            Spacer()
-                                            //イメージデータの表示
-                                        if !albumViewModel.foryou.isEmpty {
-                                            if let image = albumViewModel.foryou[albumViewModel.random].image {
-                                                Image(uiImage: UIImage(data: image) ?? UIImage(cgImage: "Tab3" as! CGImage))
-                                                    .resizable()
-                                                    .aspectRatio(contentMode: .fill)
-                                                    .frame(width: 80, height: 80)
-                                                    .cornerRadius(10)
-                                            }
-                                        }
-                                            
-                                            
+                        VStack(alignment: .leading, spacing: 5, content: {
+                            
+                            
+                            HStack{
+                                Spacer()
+                                //イメージデータの表示
+                                if !albumViewModel.foryou.isEmpty {
+                                    if let image = albumViewModel.foryou[albumViewModel.random].image {
+                                        Image(uiImage: UIImage(data: image) ?? UIImage(cgImage: "Tab3" as! CGImage))
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fill)
+                                            .frame(width: 80, height: 80)
+                                            .cornerRadius(10)
+                                    }
+                                }
+                                
+                                
+                                
+                                VStack{
+                                    Text(albumViewModel.foryou[albumViewModel.random].date ,style: .date)//日付表示
+                                        .fontWeight(.bold)
                                     
-                                            VStack{
-                                                Text(albumViewModel.foryou[albumViewModel.random].date ?? Date(),style: .date)//日付表示
-                                                    .fontWeight(.bold)
-                                                //                                                Text("優先度?：\(task.priority)")
-                                                //                                                    .fontWeight(.bold)
-                                                HStack {
-                                                    Text("メモテキスト：")
-                                                        .fontWeight(.bold)
-                                                    Text(albumViewModel.foryou[albumViewModel.random].memoText ?? "")
-                                                        .fontWeight(.bold)
-                                                }
-                                            }//vs
-                                            
-                                            
-                                            
-                                            
-                                            
-                                            
-                                            Spacer()
-                                            
-                                            
-                                            
-                                        
-                                        }//hs
-//
-
-                                        Divider()
-                                    })
-                                    .foregroundColor(.primary)
-//                                }//ForEach
-//                            }
-
+                                    HStack {
+                                        Text("メモテキスト：")
+                                            .fontWeight(.bold)
+                                        Text(albumViewModel.foryou[albumViewModel.random].memoText )
+                                            .fontWeight(.bold)
+                                    }
+                                }//vs
+                                
+                                
+                                Spacer()
+                                
+                            }//hs
+                            //
+                            
+                            Divider()
+                        })
+                        .foregroundColor(.primary)
                         
                         
                         
+                        NavigationView {
+                                   List(1..<20) { index in
+                                       NavigationLink(destination: Text("\(index)番目のView")) {
+                                           Text("\(index)行目")
+                                       }
+                                   }
+                                   .navigationTitle("Top View")
+                               }
                         
                         
                         
@@ -170,15 +170,15 @@ struct AlbumView: View {
                     .clipShape(Circle())
                     .padding()
             })
- //           .padding()
+            
         })
         .ignoresSafeArea(.all, edges: .top)
         .background(Color.primary.opacity(0.06).ignoresSafeArea(.all, edges: .all))
         
         .sheet(isPresented: $albumViewModel.isNewData,//画面遷移
                onDismiss:{  //sheet閉じたら処理実行
-                viewModelValueReset()
-               },
+            viewModelValueReset()
+        },
                content: {
             NewDataSheet(viewModel: albumViewModel)//画面遷移データ登録画面へ
         })
@@ -187,7 +187,7 @@ struct AlbumView: View {
         }
     }
     
-     //一時的なデータは削除　　また記入できるように削除
+    //一時的なデータは削除　　また記入できるように削除
     func viewModelValueReset(){
         albumViewModel.updateItem = nil
         albumViewModel.content = ""
@@ -199,3 +199,14 @@ struct AlbumView: View {
 }
 
 
+
+
+
+//List {
+//    ForEach(0 ..< locations.count, id: \.self) { index in
+//        VStack(alignment: .leading) {
+//            Text("lat: \(locations[index].latitude.description)")
+//            Text("lon: \(locations[index].longitude.description)")
+//        }
+//    }
+//}

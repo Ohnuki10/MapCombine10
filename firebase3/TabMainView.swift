@@ -27,12 +27,6 @@ struct TabMainView: View {
         
         TabView {
             //2継承
-            
-//            MapView(albumViewModel:albumViewModel)
-//                .tabItem {
-//                    Label("Map1", systemImage: "mappin.and.ellipse")
-//                    
-//                }
             Map2View(albumViewModel:albumViewModel)
                 .tabItem {
                     Label("Map2", systemImage: "mappin.and.ellipse")
@@ -55,11 +49,3 @@ struct TabMainView: View {
   
     }
 }
-
-
-//
-//struct TabMainView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        TabMainView()
-//    }
-//}

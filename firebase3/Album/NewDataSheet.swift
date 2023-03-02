@@ -27,6 +27,9 @@ struct NewDataSheet: View {
         @Environment(\.managedObjectContext) var context
         @State private var image2 = Image(systemName: "photo")
     
+    
+    @State var isShowing = false
+    
     let weight = UIScreen.main.bounds.width    //スマホの横
     let height = UIScreen.main.bounds.height//スマホの縦　比率維持できる
     
@@ -35,25 +38,14 @@ struct NewDataSheet: View {
         ZStack {
             
             VStack{
-                HStack{
-                    //                Text("\(viewModel.updateItem == nil ? "Add New" : "Update") Memory")
-                    //新規か再編集か　updateItemの中身で判断
-                    
-                    Text("Memory")
-                        .font(.title)
-                        .fontWeight(.heavy)
-                        .foregroundColor(.primary)
-                }//hs
-                .padding()
+              
                 
                 
                 
                 HStack{
-                    //                    CameraView(viewModel: viewModel, imageData: $viewModel.imageData, source: $source, isActionSheet: $isActionSheet, isImagePicker: $isImagePicker)
-                    //                        .padding(.top,50)
                     
                     CameraView(image: $image2, viewModel: viewModel, imageData: $imageData, source: $source, isActionSheet: $isActionSheet, isImagePicker: $isImagePicker)
-                        .padding(.top,50)
+                       
                     
                     //後で必ず直す　2022
                     NavigationLink(
@@ -70,15 +62,38 @@ struct NewDataSheet: View {
                 
                 
                 
+                Text("タイトル")
+                    .opacity(0.8)
                 TextEditor(text: $viewModel.content)//書き込む空白
-                    .padding()
+                
+                
+                    
                     .frame(height: height/8)
                     .focused($focus)
-                
+                Text("詳細文")
+                    .opacity(0.8)
                 TextEditor(text: $viewModel.memoText)//書き込む空白
-                    .padding()
                     .frame(height: height/4)
                     .focused($focus)
+                
+                
+                Button {
+                    isShowing = true
+                } label: {
+                 Text("位置情報追加")
+                        .font(.title2)
+                        .foregroundColor(.white)
+                        .frame(width:UIScreen.main.bounds.width - 30)
+                        .background(Color.blue)
+                        .cornerRadius(50)
+                    
+                }.disabled(viewModel.content == "" ? true : false)
+                //contentが空白ならボタン押せないよ
+                .opacity(viewModel.content == "" ? 0.5 : 1)
+                //contentが空白ならボタン押せないから半透明
+                .fullScreenCover(isPresented: $isShowing) {
+                    MapView(albumViewModel: viewModel, gpsCheck: false)
+                }
                 
                 
                 //線
@@ -87,7 +102,7 @@ struct NewDataSheet: View {
                 
                 
                 HStack{
-                    //                Text("いつ行った？")
+
                     Text("")
                         .font(.title)
                         .fontWeight(.bold)
@@ -114,9 +129,21 @@ struct NewDataSheet: View {
                     .frame(width:UIScreen.main.bounds.width - 30)
                     .background(Color.orange)
                     .cornerRadius(50)
+                    .disabled(viewModel.content == "" ? true : false)
+                    //contentが空白ならボタン押せないよ
+                    .opacity(viewModel.content == "" ? 0.5 : 1)
                 })//button　追加
                 .padding()
-                //contentが空白ならボタン押せないから半透明
+           
+                
+                
+                
+
+                
+                
+                
+                
+                
                 
             }//vs
             .background(Color.primary.opacity(0.06).ignoresSafeArea(.all, edges: .bottom))

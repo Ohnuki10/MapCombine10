@@ -25,28 +25,22 @@ struct CameraView: View {
     @FocusState var focus:Bool
 
     
-    @State var isShowing = false
+//    @State var isShowing = false
     
     
     var body: some View {
         NavigationView {            
             VStack(spacing:0){
                 ZStack{
-//                    NavigationLink(
-//                        destination: Imagepicker(show: $isImagePicker, image: $imageData, viewModel: viewModel, sourceType: source),
-//                        isActive:$isImagePicker,
-//                        label: {
-//                            Text("")
-//                        })
                     VStack{
                         HStack(spacing:30){
-                            
+                            Spacer()
                             Image(uiImage:viewModel.image ?? UIImage(systemName: "photo")!)
                                 .resizable()
                                 .aspectRatio(contentMode: .fill)
                                 .frame(width: 60, height: 60)
                                 .cornerRadius(10)
-                            Button("ライブラリー"){
+                            Button("アルバム"){
                                 self.source = .photoLibrary
                                 self.isImagePicker.toggle()
                             } .fullScreenCover(isPresented: $isImagePicker) {
@@ -55,7 +49,7 @@ struct CameraView: View {
                             
                             
                             
-                            Button("写真を撮る"){
+                            Button("撮影"){
                                 self.source = .camera
                                 self.isImagePicker.toggle()
                             }.fullScreenCover(isPresented: $isImagePicker) {
@@ -65,17 +59,17 @@ struct CameraView: View {
                             
                             
                             //if分でボタンの有無をわける変数
-                            Button("位置情報") {
-                                isShowing = true
-                            }
-                            .disabled(viewModel.content == "" ? true : false)
-                            //contentが空白ならボタン押せないよ
-                            .opacity(viewModel.content == "" ? 0.5 : 1)
-                            //contentが空白ならボタン押せないから半透明
-                            .fullScreenCover(isPresented: $isShowing) {
-                                MapView(albumViewModel: viewModel, gpsCheck: false)
-                                
-                            }
+//                            Button("位置情報") {
+//                                isShowing = true
+//                            }
+//                            .disabled(viewModel.content == "" ? true : false)
+//                            //contentが空白ならボタン押せないよ
+//                            .opacity(viewModel.content == "" ? 0.5 : 1)
+//                            //contentが空白ならボタン押せないから半透明
+//                            .fullScreenCover(isPresented: $isShowing) {
+//                                MapView(albumViewModel: viewModel, gpsCheck: false)
+//                                
+//                            }
                             
                             Spacer()
                         }

@@ -16,11 +16,11 @@ import CoreData
 class AlbumViewModel: ObservableObject {
     
     @AppStorage("subject") var strageDate: String = ""
-
-
+    
+    
     
     @Published var posts: Post?//配列？データ入ってる？
-    @Published var posts2: [Post2] = []//    @Published var imageData : Data = .init(capacity:0)
+    @Published var posts2: [Post2] = []
     
     @Published var locations: [CLLocationCoordinate2D] = []//緯度経度登録　配列　リストとか
     
@@ -30,8 +30,8 @@ class AlbumViewModel: ObservableObject {
     
     @Published var foryou = [For]()
     
-//    @ObservedObject var viewModel = AlbumViewModel()
-
+    //    @ObservedObject var viewModel = AlbumViewModel()
+    
     
     @Published var isNewData = false
     
@@ -46,8 +46,8 @@ class AlbumViewModel: ObservableObject {
     
     //移植
     @Published var updateItem : Task!
-     @Published var image3: Image?
-     @Published var date = Date()
+    @Published var image3: Image?
+    @Published var date = Date()
     
     var gpsLat = 0.0
     var gpsLon = 0.0
@@ -57,34 +57,29 @@ class AlbumViewModel: ObservableObject {
     var lonnum = 1.11111
     
     
-   @Published var appStrage :URL?
+    @Published var appStrage :URL?
     //    userDefaults.standard.array(forKey: "キー") -> [Any]?
     @Published var nowFilteredImage : UIImage?
     
     
     @Published var pin = [Pin]()
-
+    
     
     @Published var random = 0
-
+    
     init(){
         UITabBar.appearance().backgroundColor = .white
         
     }
     
     
-    
-    
-    
-    
-    
     func writeData(context : NSManagedObjectContext){
-    
+        
         let newTask = Task(context: context)
         newTask.date = date
         newTask.content = content
         
-         newTask.imageData = imageData
+        newTask.imageData = imageData
         newTask.memoText = memoText
         newTask.lat = latnum
         newTask.lon = lonnum
@@ -100,7 +95,7 @@ class AlbumViewModel: ObservableObject {
             date = Date()
             memoText = ""
             
-             imageData = Data()
+            imageData = Data()
             locations = []
             color = 0
         }
@@ -116,30 +111,15 @@ class AlbumViewModel: ObservableObject {
     
     
     func ForYou(results: FetchedResults<Task>){
-      
-            for i in results {
-                guard let imageData = i.imageData else { continue }
-                foryou.append(For(id: UUID(), image: imageData, date: i.date ?? Date(), memoText: i.memoText ?? "", title: i.content ?? ""))
-                
-            }
+        
+        for i in results {
+            guard let imageData = i.imageData else { continue }
+            foryou.append(For(id: UUID(), image: imageData, date: i.date ?? Date(), memoText: i.memoText ?? "", title: i.content ?? ""))
+            
+        }
         if foryou.count > 0 {
             random = Int.random(in: 0..<foryou.count)
         }
     }
-        
     
-     
-     
-//    func EditItem(item:Task){
-//        updateItem = item
-//
-//        date = item.date!
-//        content = item.content!
-//         imageData = item.imageData ?? Data.init()
-//        memoText = item.memoText!
-//        lat = item.lat!
-//        lon = item.lon!
-//
-//        isNewData.toggle()
-//    }
 }

@@ -121,12 +121,6 @@ struct Map2View: View {
                         isShowing = true
                         gpsButton = true
                     } label: {
-                        //                        Image(systemName: "mappin.and.ellipse")
-                        //                            .font(.largeTitle)
-                        //                            .background(Color.white)
-                        //                            .cornerRadius(10)
-                        //                            .padding()
-                        
                         Text("GPS登録")
                             .font(.title)
                             .background(Color.white)

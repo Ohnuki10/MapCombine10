@@ -18,7 +18,6 @@
 		CE93BD042988A305007A1579 /* LocationSelecterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE93BD032988A305007A1579 /* LocationSelecterView.swift */; };
 		CE93BD062988A315007A1579 /* LocationSelecterViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE93BD052988A315007A1579 /* LocationSelecterViewDelegate.swift */; };
 		CE93BD0B2988C8D8007A1579 /* AlbumViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE93BD0A2988C8D8007A1579 /* AlbumViewModel.swift */; };
-		CE93BD0D2988C8F2007A1579 /* Map2ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE93BD0C2988C8F2007A1579 /* Map2ViewModel.swift */; };
 		CE9C769229AC4555005DC6F5 /* Map2.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9C769129AC4555005DC6F5 /* Map2.swift */; };
 		CE9C769429AC458A005DC6F5 /* MapModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9C769329AC458A005DC6F5 /* MapModels.swift */; };
 		CEA6C78329792FE900A0C515 /* firebase3App.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA6C78229792FE900A0C515 /* firebase3App.swift */; };
@@ -27,8 +26,8 @@
 		CEA6C7912979301700A0C515 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA6C7902979301700A0C515 /* Constants.swift */; };
 		CEA6C7932979302800A0C515 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA6C7922979302700A0C515 /* ViewModel.swift */; };
 		CEA6C7952979304900A0C515 /* NewDataSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA6C7942979304900A0C515 /* NewDataSheet.swift */; };
-		CEA6C7972979306200A0C515 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CEA6C7962979306200A0C515 /* GoogleService-Info.plist */; };
 		CEAA62FD299B1D240059F8EE /* ConversionSpot.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAA62FC299B1D240059F8EE /* ConversionSpot.swift */; };
+		CEB4D59E29B09B03007F38AA /* AlbumRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB4D59D29B09B03007F38AA /* AlbumRow.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,7 +42,6 @@
 		CE93BD032988A305007A1579 /* LocationSelecterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSelecterView.swift; sourceTree = "<group>"; };
 		CE93BD052988A315007A1579 /* LocationSelecterViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSelecterViewDelegate.swift; sourceTree = "<group>"; };
 		CE93BD0A2988C8D8007A1579 /* AlbumViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumViewModel.swift; sourceTree = "<group>"; };
-		CE93BD0C2988C8F2007A1579 /* Map2ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Map2ViewModel.swift; sourceTree = "<group>"; };
 		CE9C769129AC4555005DC6F5 /* Map2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Map2.swift; sourceTree = "<group>"; };
 		CE9C769329AC458A005DC6F5 /* MapModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapModels.swift; sourceTree = "<group>"; };
 		CEA6C77F29792FE900A0C515 /* Museum.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Museum.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -53,8 +51,8 @@
 		CEA6C7902979301700A0C515 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		CEA6C7922979302700A0C515 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		CEA6C7942979304900A0C515 /* NewDataSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewDataSheet.swift; sourceTree = "<group>"; };
-		CEA6C7962979306200A0C515 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CEAA62FC299B1D240059F8EE /* ConversionSpot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversionSpot.swift; sourceTree = "<group>"; };
+		CEB4D59D29B09B03007F38AA /* AlbumRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumRow.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +81,7 @@
 				CEA6C7942979304900A0C515 /* NewDataSheet.swift */,
 				CE93BCFA2988A03B007A1579 /* AlbumView.swift */,
 				CE3A226E2982643500173A4F /* CameraView.swift */,
+				CEB4D59D29B09B03007F38AA /* AlbumRow.swift */,
 			);
 			path = Album;
 			sourceTree = "<group>";
@@ -90,7 +89,6 @@
 		CE93BCFE2988A28D007A1579 /* Map */ = {
 			isa = PBXGroup;
 			children = (
-				CE93BD0C2988C8F2007A1579 /* Map2ViewModel.swift */,
 				CEAA62FC299B1D240059F8EE /* ConversionSpot.swift */,
 				CE93BD012988A2F8007A1579 /* LocationListView.swift */,
 				CE06CBAD29A5E2ED004A1A93 /* TestMKPointAnnotation.swift */,
@@ -136,7 +134,6 @@
 				CE93BCFE2988A28D007A1579 /* Map */,
 				CE9C769029AC451D005DC6F5 /* Map2 */,
 				CE93BCFC2988A212007A1579 /* Album */,
-				CEA6C7962979306200A0C515 /* GoogleService-Info.plist */,
 				CE49E97A299E3160002BC699 /* CoreData.xcdatamodeld */,
 				CEA6C78629792FEA00A0C515 /* Assets.xcassets */,
 				CEA6C79F29793DFA00A0C515 /* Frameworks */,
@@ -226,7 +223,6 @@
 			files = (
 				CEA6C78A29792FEA00A0C515 /* Preview Assets.xcassets in Resources */,
 				CEA6C78729792FEA00A0C515 /* Assets.xcassets in Resources */,
-				CEA6C7972979306200A0C515 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -243,7 +239,7 @@
 				CEA6C78329792FE900A0C515 /* firebase3App.swift in Sources */,
 				CE93BD042988A305007A1579 /* LocationSelecterView.swift in Sources */,
 				CE3A226F2982643500173A4F /* CameraView.swift in Sources */,
-				CE93BD0D2988C8F2007A1579 /* Map2ViewModel.swift in Sources */,
+				CEB4D59E29B09B03007F38AA /* AlbumRow.swift in Sources */,
 				CE38FEA129A26C2400273733 /* Map.swift in Sources */,
 				CE9C769229AC4555005DC6F5 /* Map2.swift in Sources */,
 				CE93BCFB2988A03C007A1579 /* AlbumView.swift in Sources */,

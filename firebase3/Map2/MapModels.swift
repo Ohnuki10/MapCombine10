@@ -90,4 +90,3 @@ extension CLLocationCoordinate2D {
         return location1.distance(from: location2)
     }
 }
-//let distance = manager.coordinate?.distance(to: CLLocationCoordinate2D(latitude: i.locations.latitude, longitude: i.locations.longitude))
