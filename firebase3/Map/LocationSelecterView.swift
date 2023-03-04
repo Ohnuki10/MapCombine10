@@ -67,7 +67,7 @@ public struct LocationSelecterView: UIViewRepresentable {
     //ピンの追加
     public func updateUIView(_ uiView: UILocationSelecterView, context: Context) {
 
-
+        
                 var x = [CLLocationCoordinate2D]()
              var place : CLLocationCoordinate2D = CLLocationCoordinate2D()
                 //for文
@@ -75,6 +75,7 @@ public struct LocationSelecterView: UIViewRepresentable {
                     place.latitude = i.lat
                     place.longitude = i.lon
                     x.append(place)
+                    
         
                 }
         // clear

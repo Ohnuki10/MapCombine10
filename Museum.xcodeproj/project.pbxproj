@@ -10,8 +10,9 @@
 		CE06CBAE29A5E2ED004A1A93 /* TestMKPointAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE06CBAD29A5E2ED004A1A93 /* TestMKPointAnnotation.swift */; };
 		CE38FEA129A26C2400273733 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE38FEA029A26C2400273733 /* Map.swift */; };
 		CE3A226F2982643500173A4F /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3A226E2982643500173A4F /* CameraView.swift */; };
-		CE49E97C299E3160002BC699 /* CoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CE49E97A299E3160002BC699 /* CoreData.xcdatamodeld */; };
 		CE49E97E299E3986002BC699 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE49E97D299E3986002BC699 /* Persistence.swift */; };
+		CE59908D29B1D02500108E68 /* Map3.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE59908C29B1D02500108E68 /* Map3.swift */; };
+		CE59908F29B1D02F00108E68 /* Map1.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE59908E29B1D02F00108E68 /* Map1.swift */; };
 		CE93BCF72987A6DE007A1579 /* TabMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE93BCF62987A6DE007A1579 /* TabMainView.swift */; };
 		CE93BCFB2988A03C007A1579 /* AlbumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE93BCFA2988A03B007A1579 /* AlbumView.swift */; };
 		CE93BD022988A2F8007A1579 /* LocationListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE93BD012988A2F8007A1579 /* LocationListView.swift */; };
@@ -34,8 +35,9 @@
 		CE06CBAD29A5E2ED004A1A93 /* TestMKPointAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestMKPointAnnotation.swift; sourceTree = "<group>"; };
 		CE38FEA029A26C2400273733 /* Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
 		CE3A226E2982643500173A4F /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
-		CE49E97B299E3160002BC699 /* CoreData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreData.xcdatamodel; sourceTree = "<group>"; };
 		CE49E97D299E3986002BC699 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
+		CE59908C29B1D02500108E68 /* Map3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Map3.swift; sourceTree = "<group>"; };
+		CE59908E29B1D02F00108E68 /* Map1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Map1.swift; sourceTree = "<group>"; };
 		CE93BCF62987A6DE007A1579 /* TabMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabMainView.swift; sourceTree = "<group>"; };
 		CE93BCFA2988A03B007A1579 /* AlbumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumView.swift; sourceTree = "<group>"; };
 		CE93BD012988A2F8007A1579 /* LocationListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationListView.swift; sourceTree = "<group>"; };
@@ -102,7 +104,9 @@
 		CE9C769029AC451D005DC6F5 /* Map2 */ = {
 			isa = PBXGroup;
 			children = (
+				CE59908E29B1D02F00108E68 /* Map1.swift */,
 				CE9C769129AC4555005DC6F5 /* Map2.swift */,
+				CE59908C29B1D02500108E68 /* Map3.swift */,
 				CE9C769329AC458A005DC6F5 /* MapModels.swift */,
 			);
 			path = Map2;
@@ -134,7 +138,6 @@
 				CE93BCFE2988A28D007A1579 /* Map */,
 				CE9C769029AC451D005DC6F5 /* Map2 */,
 				CE93BCFC2988A212007A1579 /* Album */,
-				CE49E97A299E3160002BC699 /* CoreData.xcdatamodeld */,
 				CEA6C78629792FEA00A0C515 /* Assets.xcassets */,
 				CEA6C79F29793DFA00A0C515 /* Frameworks */,
 				CEA6C78829792FEA00A0C515 /* Preview Content */,
@@ -244,9 +247,10 @@
 				CE9C769229AC4555005DC6F5 /* Map2.swift in Sources */,
 				CE93BCFB2988A03C007A1579 /* AlbumView.swift in Sources */,
 				CE93BCF72987A6DE007A1579 /* TabMainView.swift in Sources */,
-				CE49E97C299E3160002BC699 /* CoreData.xcdatamodeld in Sources */,
+				CE59908F29B1D02F00108E68 /* Map1.swift in Sources */,
 				CEA6C7932979302800A0C515 /* ViewModel.swift in Sources */,
 				CE93BD022988A2F8007A1579 /* LocationListView.swift in Sources */,
+				CE59908D29B1D02500108E68 /* Map3.swift in Sources */,
 				CE06CBAE29A5E2ED004A1A93 /* TestMKPointAnnotation.swift in Sources */,
 				CEA6C7912979301700A0C515 /* Constants.swift in Sources */,
 				CE9C769429AC458A005DC6F5 /* MapModels.swift in Sources */,
@@ -380,7 +384,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"firebase3/Preview Content\"";
-				DEVELOPMENT_TEAM = H7TD556929;
+				DEVELOPMENT_TEAM = UGA49GDT27;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "^p^";
@@ -395,7 +399,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = Contents.firebase3;
+				PRODUCT_BUNDLE_IDENTIFIER = Contents.museum;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -411,7 +415,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"firebase3/Preview Content\"";
-				DEVELOPMENT_TEAM = H7TD556929;
+				DEVELOPMENT_TEAM = UGA49GDT27;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "^p^";
@@ -426,7 +430,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = Contents.firebase3;
+				PRODUCT_BUNDLE_IDENTIFIER = Contents.museum;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -456,19 +460,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		CE49E97A299E3160002BC699 /* CoreData.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				CE49E97B299E3160002BC699 /* CoreData.xcdatamodel */,
-			);
-			currentVersion = CE49E97B299E3160002BC699 /* CoreData.xcdatamodel */;
-			path = CoreData.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = CEA6C77729792FE800A0C515 /* Project object */;
 }

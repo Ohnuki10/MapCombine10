@@ -17,10 +17,10 @@ public class UILocationSelecterView: UIView {
     public var locationLimit: Int?
     private lazy var mapView = MKMapView()
     weak public var delegate: LocationSelecterViewDelegate?
-
     private let verticalLine = CAShapeLayer()
     private let horizontalLine = CAShapeLayer()
     
+   
 
     
     

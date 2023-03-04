@@ -11,6 +11,7 @@ struct NewDataSheet: View {
     @ObservedObject var viewModel: AlbumViewModel
 //    @ObservedObject var albumViewModel: AlbumViewModel
     
+    @State var addnowBool = false
     @State var imageData : Data = .init(capacity:0)//@stateのイメージデータ
     @State var isActionSheet = false
     @State var isImagePicker = false
@@ -79,6 +80,7 @@ struct NewDataSheet: View {
                 
                 Button {
                     isShowing = true
+                    addnowBool=true
                 } label: {
                  Text("位置情報追加")
                         .font(.title2)
@@ -87,12 +89,13 @@ struct NewDataSheet: View {
                         .background(Color.blue)
                         .cornerRadius(50)
                     
-                }.disabled(viewModel.content == "" ? true : false)
-                //contentが空白ならボタン押せないよ
-                .opacity(viewModel.content == "" ? 0.5 : 1)
+                }
+//                .disabled(viewModel.memoText == "" ? true : false)
+//                //contentが空白ならボタン押せないよ
+//                .opacity(viewModel.memoText == "" ? 0.5 : 1)
                 //contentが空白ならボタン押せないから半透明
                 .fullScreenCover(isPresented: $isShowing) {
-                    MapView(albumViewModel: viewModel, gpsCheck: false)
+                    Map3(albumViewModel: viewModel, gpsCheck: 2)
                 }
                 
                 
@@ -115,6 +118,7 @@ struct NewDataSheet: View {
                 Button(action: {
                     viewModel.writeData(context: context)
                     viewModel.ForYou(results: results)
+                    addnowBool = false
                 }, label: {
                     Label(title:{Text(viewModel.updateItem == nil ? "Add Now" : "Update")//新規か再編集か　updateItemの中身で判断
                             .font(.title)
@@ -129,21 +133,14 @@ struct NewDataSheet: View {
                     .frame(width:UIScreen.main.bounds.width - 30)
                     .background(Color.orange)
                     .cornerRadius(50)
-                    .disabled(viewModel.content == "" ? true : false)
-                    //contentが空白ならボタン押せないよ
-                    .opacity(viewModel.content == "" ? 0.5 : 1)
+//      
                 })//button　追加
+                .disabled(((viewModel.memoText == "")||(viewModel.content == "")||(viewModel.image == UIImage(systemName: "photo")||(addnowBool == false))) ? true : false)
+                //contentが空白ならボタン押せないよ
+                .opacity(((viewModel.memoText == "")||(viewModel.content == "")||(viewModel.image == UIImage(systemName: "photo")||(addnowBool == false))) ? 0.5 : 1)
+                
                 .padding()
-           
-                
-                
-                
-
-                
-                
-                
-                
-                
+               
                 
             }//vs
             .background(Color.primary.opacity(0.06).ignoresSafeArea(.all, edges: .bottom))

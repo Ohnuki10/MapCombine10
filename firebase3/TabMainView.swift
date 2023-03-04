@@ -27,7 +27,7 @@ struct TabMainView: View {
         
         TabView {
             //2継承
-            Map2View(albumViewModel:albumViewModel)
+            Map1(albumViewModel:albumViewModel, gpsCheck: 0)
                 .tabItem {
                     Label("Map2", systemImage: "mappin.and.ellipse")
                     

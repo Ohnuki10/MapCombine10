@@ -27,9 +27,6 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         lastSeenLocation?.coordinate
     }
     
-    /// 京都御所(紫宸殿)の緯度経度
-    let imperialPalaceLocation = CLLocationCoordinate2D(latitude: 35.69735612272055124101, longitude: 139.6978333184864)
-    
     override init() {
         super.init() // スーパクラスのイニシャライザを実行
         manager.delegate = self // 自身をデリゲートプロパティに設定
@@ -41,7 +38,7 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     
     // 領域の更新をするデリゲートメソッド
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        
+        print("いいいいいいい")
         // 配列の最後に最新のロケーションが格納される
         // map関数を使って全要素にアクセス map{ $0←要素に参照 }
         locations.last.map {
@@ -68,6 +65,8 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         print("カウント")
         
     }
+    
+   
     
     
 }

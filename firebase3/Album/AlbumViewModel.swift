@@ -70,7 +70,25 @@ class AlbumViewModel: ObservableObject {
     init(){
         UITabBar.appearance().backgroundColor = .white
         
+        
     }
+    
+    
+    func fetchRequests(results: FetchedResults<Task>,context:NSManagedObjectContext, lat:Double, lon:Double){
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
+        fetchRequest.entity = Task.entity()
+        fetchRequest.predicate = NSPredicate(format: "lat == %@", "\(lat)")
+        let students = try? context.fetch(fetchRequest) as? [Task]
+        print("うううう\(students)")
+        print("うううう\(results)")
+        for student in students! {
+               context.delete(student)
+           }
+        try? context.save()
+    }
+    
+    
+    
     
     
     func writeData(context : NSManagedObjectContext){
