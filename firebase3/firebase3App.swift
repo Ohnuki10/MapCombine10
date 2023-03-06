@@ -9,8 +9,9 @@ import SwiftUI
 
 @main
 struct firebase3App: App {
+   
     let persistenceController = PersistenceController.shared
-    
+
     @StateObject var albumviewModel = AlbumViewModel()
     
     var body: some Scene {

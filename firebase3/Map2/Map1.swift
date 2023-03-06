@@ -15,11 +15,9 @@ struct Map1: View {
     @FetchRequest(entity: Task.entity(), sortDescriptors: [NSSortDescriptor(key: "date", ascending: true)],animation: .spring()) var results : FetchedResults<Task>
     
     
-    @State  var region = MKCoordinateRegion(
-    )
-    @ObservedObject  var manager = LocationManager()
-    
+    @StateObject var manager = LocationManager()
     @State  var a = [CLLocationCoordinate2D]()
+    
     
     // 0: 通常 1: GPS登録 2: ピン登録
     @State var gpsCheck: Int
@@ -38,26 +36,35 @@ struct Map1: View {
     
     @State var gpsButton =  false
     
-        @State var pin = [Pin]()
+    //        @State var pin = [Pin]()
     
     @Environment(\.dismiss) var dismiss
     
     
     
     var body: some View {
-        // 地図を表示
+        
+        
+        
+        
+        
+        
         ZStack {
-           
-            Map(coordinateRegion: $region,
+            Map(coordinateRegion: $albumViewModel.region,
+                interactionModes: .all,
                 showsUserLocation: true,
                 userTrackingMode: $trackingMode,
-                annotationItems: pin,//変更
+                annotationItems: albumViewModel.mapData,//変更
                 annotationContent: { point in MapMarker(coordinate: point.locations, tint: point.color)}
                 
             ).edgesIgnoringSafeArea(.bottom)
             
             
-       
+            
+            
+            // 地図を表示　　最初の画面
+            //        if gpsCheck == 0 {
+            
             
             VStack {
                 Spacer()
@@ -67,196 +74,142 @@ struct Map1: View {
                     Spacer()
                     
                     
-                    let centerPin = region.center
-                    
                     if !manager.indexCount.isEmpty {
-                      
+                        
                         Button {
                             for i in 0..<manager.indexCount.count {
                                 if albumViewModel.mapData[manager.indexCount[i]].color != Color.white {
-                                albumViewModel.mapData[manager.indexCount[i]].color = Color.white
-                                
-                                albumViewModel.lonnum = albumViewModel.mapData[manager.indexCount[i]].locations.longitude
-                                albumViewModel.latnum = albumViewModel.mapData[manager.indexCount[i]].locations.latitude
-                                albumViewModel.color = 1
-                                albumViewModel.writeData(context: context)
-                                
-                                albumViewModel.pin = [Pin]()
-                                
-                                    
-                                    
-                                    for i in albumViewModel.mapData {
-                                        
-                                        let newArray = albumViewModel.mapData.filter { $0.locations.longitude == i.locations.longitude && $0.locations.latitude == i.locations.latitude}
-                                        print("ああああああ\(newArray)")
-                                        if newArray.count > 1 {
-                                            
-                                            var b = false
-                                            for j in a {
-                                                if j.latitude == newArray[0].locations.latitude && j.longitude == newArray[0].locations.latitude {
-                                                    b = true
-                                                    
-                                                }
-                                            }
-                                            if b {
-                                                continue
-                                            }
-                                            a.append(newArray[0].locations)
-                                            albumViewModel.pin.append(Pin(color: .white, locations: newArray[0].locations))
-                                            
-                                            
-                                        } else {
-                                            
-                                            albumViewModel.pin.append(Pin(color: newArray[0].color, locations: newArray[0].locations))
-                                        }
-                                        
-                                    }//
+                                    albumViewModel.color = 1
+                                    albumViewModel.fetchRequests(results: results, context: context, id: albumViewModel.mapData[manager.indexCount[i]].id)
                                 }//for
-                                
-                                gpsButton = false
-                                
                             }
                             
+                            albumViewModel.mapData = [MapData]()
+                            for i in results {
+                                
+                                if i.color == 1 {
+                                    albumViewModel.mapData.append(MapData(id: i.id ?? UUID(), context: i.content ?? "", color: .white, locations: CLLocationCoordinate2D(latitude: i.lat, longitude: i.lon)))
+                                } else {
+                                    albumViewModel.mapData.append(MapData(id: i.id ?? UUID(), context: i.content ?? "", color: .blue, locations: CLLocationCoordinate2D(latitude: i.lat, longitude: i.lon)))
+                                }
+                                print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+                                print(albumViewModel.mapData)
+                            }
+                            
+                            gpsButton = false
+                            
+                            
                         } label: {
-                            Text("ADD")
-                                .font(.title2)
-                                .background(Color.white.opacity(0.8))
-                                .cornerRadius(3)
-                                .padding()
+//                            Text("WhitePin")
+//                                .font(.title2)
+//                                .background(Color.white.opacity(0.8))
+//                                .cornerRadius(3)
+//                                .padding()
+                            
+                            Image(systemName: "mappin.circle")
+                                .resizable()
+                                .foregroundColor(.white)
+                                .background(.blue)
+                                .frame(width: 30,height: 30)
+                                .cornerRadius(50)
                         }
                         
                     }//if !manager.indexCount.isEmpty　もし近づいたら
                     
                     
-                  
+                    
                     
                     Button {
                         
                         isShowing = true
                         gpsButton = true
+                        //
+                        //                            albumViewModel.latnum = albumViewModel.region.center.latitude
+                        //                            albumViewModel.lonnum = albumViewModel.region.center.longitude
+                        //
+                        //
+                        //
+                        //
+                        //                            albumViewModel.color = 1
                         
-                        albumViewModel.latnum = region.center.latitude
-                        albumViewModel.lonnum = region.center.longitude
                         
                         
-                        
-                        
-                        albumViewModel.color = 1
+                        albumViewModel.color = 0
                         dismiss()
+                        manager.indexCount = [Int]()
                         
-                        gpsCheck = 0
-                        
-                     
                         
                     } label: {
-                        Text("GPS登録")
+                        Text("仮現在地を追加")
                             .font(.title)
-                            .background(Color.white)
+                            .foregroundColor(.white)
+                            .background(Color.blue)
                             .cornerRadius(10)
                             .padding()
                     }
                     .fullScreenCover(isPresented: $isShowing) {
-                        Map2View(region1: region, pin: $pin, albumViewModel: albumViewModel, gpsCheck: 0)
                         
+                        Map3(albumViewModel: albumViewModel, gpsCheck: 1)
                     }
                     
                     
                 }//hs
                 
-
-             
+                
+                
             }//vs
-            
-        }
-        .onAppear  {
-            
-            albumViewModel.mapData = [MapData]()
-            for i in results {
+            .onAppear  {
                 
-                if i.color == 1 {
-                    albumViewModel.mapData.append(MapData(context: i.content ?? "", color: .white, locations: CLLocationCoordinate2D(latitude: i.lat, longitude: i.lon)))
-                } else {
-                    albumViewModel.mapData.append(MapData(context: i.content ?? "", color: .blue, locations: CLLocationCoordinate2D(latitude: i.lat, longitude: i.lon)))
-                }
-            }
-            print(albumViewModel.mapData)
-            albumViewModel.fetchRequests(results: results, context:context, lat: 34.38551650988948, lon: 138.7407744967148)
-            timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
-                
-                var Count = -1
-                manager.indexCount = [Int]()
-                for i in albumViewModel.mapData {
-                    // 距離を
-                    
-                    //coordinate をピンに変更
-                    
-                    var distance = 0.0
-                    
-                    if gpsButton{
-                        
-                        
-                        distance = CLLocationCoordinate2D(latitude: albumViewModel.gpsLat, longitude: albumViewModel.gpsLon).distance(to: CLLocationCoordinate2D(latitude: i.locations.latitude, longitude: i.locations.longitude))
-                        
-                        
-                    } else{
-                        distance = (manager.coordinate?.distance(to: CLLocationCoordinate2D(latitude: i.locations.latitude, longitude: i.locations.longitude))) ?? 500
-                    }
-                    
-                    Count += 1
-                    // ピンの範囲に入ったらaddボタンを表示できるようにする
-                    if distance <= 50 && distance > 0 {
-                        manager.addDistance = true
-                        manager.indexCount.append(Count)
-                        print("おいおおおおお")
+                albumViewModel.mapData = [MapData]()
+                for i in results {
+
+                    if i.color == 1 {
+                        albumViewModel.mapData.append(MapData(id: i.id ?? UUID(), context: i.content ?? "", color: .white, locations: CLLocationCoordinate2D(latitude: i.lat, longitude: i.lon)))
                     } else {
-                        manager.addDistance = false
+                        albumViewModel.mapData.append(MapData(id: i.id ?? UUID()
+                                                              , context: i.content ?? "", color: .blue, locations: CLLocationCoordinate2D(latitude: i.lat, longitude: i.lon)))
                     }
-                    
-                    
                 }
-            }
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                
-                albumViewModel.pin = [Pin]()
-                
-                print("あああああああああ")
-                for i in albumViewModel.mapData {
-                    
-                    let newArray = albumViewModel.mapData.filter { $0.locations.longitude == i.locations.longitude && $0.locations.latitude == i.locations.latitude}
-                    print("ああああああ\(newArray)")
-                    if newArray.count > 1 {
-                        
-                        var b = false
-                        for j in a {
-                            if j.latitude == newArray[0].locations.latitude && j.longitude == newArray[0].locations.latitude {
-                                b = true
-                                
+                print(albumViewModel.mapData)
+                timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
+                    print("あああ\(albumViewModel.mapData)")
+                    var Count = -1
+                    manager.indexCount = [Int]()
+                    for i in albumViewModel.mapData {
+                        // 距離を
+
+                        //coordinate をピンに変更
+
+                        var distance = 0.0
+
+                        if gpsButton{
+
+
+                            distance = CLLocationCoordinate2D(latitude: albumViewModel.gpsLat, longitude: albumViewModel.gpsLon).distance(to: CLLocationCoordinate2D(latitude: i.locations.latitude, longitude: i.locations.longitude))
+
+
+                        } else{
+                            distance = (manager.coordinate?.distance(to: CLLocationCoordinate2D(latitude: i.locations.latitude, longitude: i.locations.longitude))) ?? 500
+                        }
+
+                        Count += 1
+                        // ピンの範囲に入ったらaddボタンを表示できるようにする
+                        if distance <= 50 && distance > 0 {
+                            if albumViewModel.mapData[Count].color == .blue {
+                                manager.addDistance = true
+                                manager.indexCount.append(Count)
                             }
+                            print("おいおおおおお")
+                        } else {
+                            manager.addDistance = false
                         }
-                        if b {
-                            continue
-                        }
-                        a.append(newArray[0].locations)
-                        pin.append(Pin(color: .white, locations: newArray[0].locations))
-                        
-                        
-                    } else {
-                        
-                        pin.append(Pin(color: newArray[0].color, locations: newArray[0].locations))
+
+
                     }
-                    
-                    
-                }//for
-                
+                }
+
             }
-            print(albumViewModel.pin)
-            
-            
-            
         }
-        
-        
-        
     }
+    
 }

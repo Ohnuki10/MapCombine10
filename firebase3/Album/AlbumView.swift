@@ -6,15 +6,20 @@
 //
 
 import SwiftUI
+import MapKit
+
+
+
 
 struct AlbumView: View {
     
     //    @StateObject var viewModel = AlbumViewModel()
     @ObservedObject var albumViewModel: AlbumViewModel
-    init(viewModel: AlbumViewModel) {
-        albumViewModel = viewModel
-        
-    }
+    
+    @State var isNewData2 = false
+    
+    @Binding var region: MKCoordinateRegion
+    @Binding var pin: [Pin]
     
     @FetchRequest(entity: Task.entity(), sortDescriptors: [NSSortDescriptor(key: "date", ascending: true)],animation: .spring()) var results : FetchedResults<Task>
     //ここにデータ入ってる　Foreachで回している
@@ -23,7 +28,6 @@ struct AlbumView: View {
     @State var nowDate = Date()
     @State var dateText = ""
     private let dateFormatter = DateFormatter()
-    
     
     @Environment(\.managedObjectContext) var context
     
@@ -36,7 +40,7 @@ struct AlbumView: View {
                 VStack(spacing:0){
                     if albumViewModel.foryou.isEmpty{
                         Spacer()
-                        Text("アルバム一覧")
+                        Text("-NO DATA-")
                             .font(.title)
                             .foregroundColor(.primary)
                             .fontWeight(.heavy)
@@ -45,11 +49,12 @@ struct AlbumView: View {
                         
                         //ForYou
                         
-                        
-                        Text("ForYou")
+                        Divider()
+                        Text("-Pickup-")
+                            .foregroundColor(.green)
                         VStack(alignment: .leading, spacing: 5, content: {
                             
-                            
+                            Divider()
                             HStack{
                                 Spacer()
                                 //イメージデータの表示
@@ -60,6 +65,8 @@ struct AlbumView: View {
                                             .aspectRatio(contentMode: .fill)
                                             .frame(width: 80, height: 80)
                                             .cornerRadius(10)
+                                        
+                                            
                                     }
                                 }
                                 
@@ -70,11 +77,14 @@ struct AlbumView: View {
                                         .fontWeight(.bold)
                                     
                                     HStack {
-                                        Text("メモテキスト：")
-                                            .fontWeight(.bold)
-                                        Text(albumViewModel.foryou[albumViewModel.random].memoText )
+//                                        Text("メモテキスト：")
+//                                            .fontWeight(.bold)
+//                                        Text(albumViewModel.foryou[albumViewModel.random].memoText )
+//                                            .fontWeight(.bold)
+                                        Text(albumViewModel.foryou[albumViewModel.random].title )
                                             .fontWeight(.bold)
                                     }
+                                    
                                 }//vs
                                 
                                 
@@ -86,17 +96,9 @@ struct AlbumView: View {
                             Divider()
                         })
                         .foregroundColor(.primary)
+                        .background(.green.opacity(0.1))
                         
                         
-                        
-                        NavigationView {
-                                   List(1..<20) { index in
-                                       NavigationLink(destination: Text("\(index)番目のView")) {
-                                           Text("\(index)行目")
-                                       }
-                                   }
-                                   .navigationTitle("Top View")
-                               }
                         
                         
                         
@@ -117,11 +119,11 @@ struct AlbumView: View {
                                                 }
                                                 VStack{
                                                     Text(task.date ?? Date(),style: .date)//日付表示
-                                                        .fontWeight(.bold)
+                                                        .font(.subheadline)
                                                     //                                                Text("優先度?：\(task.priority)")
                                                     //                                                    .fontWeight(.bold)
                                                     HStack {
-                                                        Text("メモテキスト：")
+                                                        Text("メモ：")
                                                             .fontWeight(.bold)
                                                         Text(task.memoText ?? "")
                                                             .fontWeight(.bold)
@@ -137,19 +139,22 @@ struct AlbumView: View {
                                             Divider()
                                         })
                                         .foregroundColor(.primary)
-                                        //                                    .contextMenu{//長押ししたら出現
-                                        //                                        Button(action: {
-                                        //                                            albumViewModel.EditItem(item: task)
-                                        //                                        }, label: {
-                                        //                                            Text("編集")
-                                        //                                        })
-                                        //                                        Button(action: {
-                                        //                                            context.delete(task)
-                                        //                                            try! context.save()
-                                        //                                        }, label: {
-                                        //                                            Text("削除")
-                                        //                                        })
-                                        //                                    }//長押しで出てくるボタン
+                                        .contextMenu{//長押ししたら出現
+                                            Button(action: {
+                                                albumViewModel.EditItem(item: task)
+                                                isNewData2.toggle()
+                                                
+                                            }, label: {
+                                                Text("編集")
+                                            })
+                                            Button(action: {
+                                                context.delete(task)
+                                                try! context.save()
+                                                albumViewModel.ForYou(results: results)
+                                            }, label: {
+                                                Text("削除")
+                                            })
+                                        }//長押しで出てくるボタン
                                     }
                                 }
                             }
@@ -158,6 +163,7 @@ struct AlbumView: View {
                     }
                 }///vs
                 .navigationBarTitle("アルバム一覧", displayMode: .inline)
+                
             }//navigationView
             
             //追加画面へいく ＋ボタン　isNewDataがtrueになって画面出現
@@ -180,10 +186,19 @@ struct AlbumView: View {
             viewModelValueReset()
         },
                content: {
-            NewDataSheet(viewModel: albumViewModel)//画面遷移データ登録画面へ
+            NewDataSheet(viewModel: albumViewModel, modal: $isNewData2, region: $region, pin: $pin)//画面遷移データ登録画面へ
+        })
+        .sheet(isPresented: $isNewData2,//画面遷移
+               onDismiss:{  //sheet閉じたら処理実行
+            viewModelValueReset()
+        },
+               content: {
+            EditDataSheet(viewModel: albumViewModel, content: albumViewModel.content, memoText: albumViewModel.memoText, modal: $isNewData2, region: $albumViewModel.region, image2: Image(systemName: "photo"))
         })
         .onAppear {
             albumViewModel.ForYou(results: results)
+            print(results)
+            print(albumViewModel.foryou)
         }
     }
     

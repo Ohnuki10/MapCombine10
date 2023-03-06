@@ -35,7 +35,7 @@ struct CameraView: View {
                     VStack{
                         HStack(spacing:30){
                             Spacer()
-                            Image(uiImage:viewModel.image ?? UIImage(systemName: "photo")!)
+                            Image(uiImage:viewModel.image )
                                 .resizable()
                                 .aspectRatio(contentMode: .fill)
                                 .frame(width: 60, height: 60)

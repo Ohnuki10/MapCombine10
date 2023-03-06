@@ -51,6 +51,7 @@ class AlbumViewModel: ObservableObject {
     
     var gpsLat = 0.0
     var gpsLon = 0.0
+    var id = UUID()
     
     //仮
     var latnum = 1.11111
@@ -61,11 +62,11 @@ class AlbumViewModel: ObservableObject {
     //    userDefaults.standard.array(forKey: "キー") -> [Any]?
     @Published var nowFilteredImage : UIImage?
     
-    
-    @Published var pin = [Pin]()
-    
+  
     
     @Published var random = 0
+    
+    @Published var region = MKCoordinateRegion()
     
     init(){
         UITabBar.appearance().backgroundColor = .white
@@ -74,17 +75,17 @@ class AlbumViewModel: ObservableObject {
     }
     
     
-    func fetchRequests(results: FetchedResults<Task>,context:NSManagedObjectContext, lat:Double, lon:Double){
+    func fetchRequests(results: FetchedResults<Task>,context:NSManagedObjectContext,id: UUID){
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
         fetchRequest.entity = Task.entity()
-        fetchRequest.predicate = NSPredicate(format: "lat == %@", "\(lat)")
-        let students = try? context.fetch(fetchRequest) as? [Task]
-        print("うううう\(students)")
-        print("うううう\(results)")
-        for student in students! {
-               context.delete(student)
-           }
-        try? context.save()
+        fetchRequest.predicate = NSPredicate(format: "id == %@", "\(id)")
+        
+        guard let map = try? context.fetch(fetchRequest) as? [Task] else { return }
+        
+        EditItem(item: map[0])
+        writeData(context: context)
+        
+        
     }
     
     
@@ -92,9 +93,33 @@ class AlbumViewModel: ObservableObject {
     
     
     func writeData(context : NSManagedObjectContext){
-        
+        if updateItem != nil {
+            
+            updateItem.id = id
+            updateItem.date = date
+            updateItem.content = content
+            
+            updateItem.imageData = imageData
+            updateItem.memoText = memoText
+            updateItem.lat = latnum
+            updateItem.lon = lonnum
+            updateItem.color = Int64(color)
+            print("あああああああああああああ")
+            
+            try! context.save()
+            
+            updateItem = nil
+            content = ""
+            date = Date()
+            memoText = ""
+            
+            imageData = Data()
+            locations = []
+            color = 0
+            return
+        }
         let newTask = Task(context: context)
-        newTask.date = date
+        newTask.date = Date()
         newTask.content = content
         
         newTask.imageData = imageData
@@ -102,6 +127,7 @@ class AlbumViewModel: ObservableObject {
         newTask.lat = latnum
         newTask.lon = lonnum
         newTask.color = Int64(color)
+        newTask.id = id
         print("あああああああああああああ")
         print(color)
         
@@ -129,6 +155,10 @@ class AlbumViewModel: ObservableObject {
     
     
     func ForYou(results: FetchedResults<Task>){
+        foryou = [For]()
+        if results.count <= 0 {
+            return
+        }
         
         for i in results {
             guard let imageData = i.imageData else { continue }
@@ -138,6 +168,24 @@ class AlbumViewModel: ObservableObject {
         if foryou.count > 0 {
             random = Int.random(in: 0..<foryou.count)
         }
+    }
+    
+    
+    
+    func EditItem(item: Task){
+        
+        updateItem = item
+        
+        guard let date = item.date, let content = item.content, let imageData = item.imageData, let memoText = item.memoText, let id = item.id else { return }
+        self.date = date
+        self.content = content
+        
+        self.imageData = imageData
+        self.memoText = memoText
+        self.id = id
+        
+        
+        
     }
     
 }
